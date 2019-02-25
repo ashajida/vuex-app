@@ -1,28 +1,52 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <div id="app">
+      <form class="col-md-6 offset-md-3" v-on:submit.prevent="addTodoAndClearInput">
+          <div class="form-group">
+            <input v-model="todo"  type="text" class="form-control mb-2"  aria-describedby="emailHelp" placeholder="Enter email">
+            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+          </div>
+      </form>
+      <Todos />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Todos from './components/Todos.vue'
+import store from './store.js'
+import { mapMutations } from 'vuex';
+// import Home from './components/Post.vue'
+// import Home from './components/Profile.vue'
+// import Home from './components/Login.vue'
+// import Home from './components/Register.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
+    Todos
+  }, 
+  store,
+  data() {
+    return {
+      todo: '',
+      showTodos: false
+    }
+  }, 
+  methods: {
+    ...mapMutations(['addTodo']),
+    addTodoAndClearInput() {
+      this.addTodo({todo: this.todo});
+      this.todo = '';
+    }
+  },
+  computed: {
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    padding-top: 60px;
+  }
 </style>
